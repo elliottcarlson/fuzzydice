@@ -107,6 +107,7 @@ type object struct {
 	fields []string
 }
 
+// RankedObject is a return structure containing found source matches, and their similarity coefficient ranking.
 type RankedObject struct {
 	Source interface{}
 	Rank   float32
