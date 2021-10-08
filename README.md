@@ -17,8 +17,12 @@ go get github.com/elliottcarlson/fuzzydice
 
 ##  Usage & Examples
 
-Examples can be found on the [documentation for the library](https://pkg.go.dev/github.com/elliottcarlson/fuzzydice)
+Examples can be found on the [documentation for the library][2]
 
 ## License
 
 MIT
+
+[1]: https://github.com/ecnepsnai/search
+[2]: https://pkg.go.dev/github.com/elliottcarlson/fuzzydice
+
