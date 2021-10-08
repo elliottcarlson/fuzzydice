@@ -1,3 +1,6 @@
+/*
+Package fuzzydice provides a mechanism for searching fields within structures using the Sørensen–Dice coefficient.
+*/
 package fuzzydice
 
 import (
@@ -8,10 +11,15 @@ import (
 	"strings"
 )
 
+// FuzzyDice describes a FuzzyDice instance with loaded objects. A single FuzzyDice instance can contain structures of
+// varying types, as long as they share common fields for searching.
 type FuzzyDice struct {
 	objects []object
 }
 
+// Load will load searchable data into the instance. Searchable data can either be a singular Struct, or a Slice of
+// Structs. Not all objects fed into the search need to be of the same type, however, they must share common field names
+// that can be searched on.
 func (f *FuzzyDice) Load(source interface{}, fields ...string) error {
 	value := reflect.ValueOf(source)
 
@@ -42,6 +50,8 @@ func (f *FuzzyDice) Load(source interface{}, fields ...string) error {
 	return nil
 }
 
+// BestMatch will find the top ranked match for a given query. It will return the matching interface{} and a float32
+// similiarity coefficient. If there are no matches available, the match will return nil as the interface{}.
 func (f *FuzzyDice) BestMatch(query string) (interface{}, float32) {
 	results := f.Rank(query)
 
@@ -52,6 +62,8 @@ func (f *FuzzyDice) BestMatch(query string) (interface{}, float32) {
 	return nil, 0
 }
 
+// Matches will return all matches for a given query. The resulting interface{} will contain each of the matching
+// objects that were loaded in that were matched.
 func (f *FuzzyDice) Matches(query string) []interface{} {
 	ranks := f.Rank(query)
 
@@ -63,6 +75,8 @@ func (f *FuzzyDice) Matches(query string) []interface{} {
 	return results
 }
 
+// Rank will perform the search for a given query. It will return a []rankedObject that contains a reference to the
+// source object that matched, as well as the similarity coefficient of the match to the query.
 func (f *FuzzyDice) Rank(query string) []rankedObject {
 	ranks := []rankedObject{}
 	for _, o := range f.objects {
