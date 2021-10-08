@@ -51,12 +51,12 @@ func (f *FuzzyDice) Load(source interface{}, fields ...string) error {
 }
 
 // BestMatch will find the top ranked match for a given query. It will return the matching interface{} and a float32
-// similiarity coefficient. If there are no matches available, the match will return nil as the interface{}.
+// similarity value. If there are no matches available, the match will return nil as the interface{}.
 func (f *FuzzyDice) BestMatch(query string) (interface{}, float32) {
 	results := f.Rank(query)
 
 	if len(results) > 0 {
-		return results[0].source, results[0].rank
+		return results[0].Source, results[0].Rank
 	}
 
 	return nil, 0
@@ -69,34 +69,34 @@ func (f *FuzzyDice) Matches(query string) []interface{} {
 
 	results := make([]interface{}, len(ranks))
 	for i, r := range ranks {
-		results[i] = r.source
+		results[i] = r.Source
 	}
 
 	return results
 }
 
-// Rank will perform the search for a given query. It will return a []rankedObject that contains a reference to the
+// Rank will perform the search for a given query. It will return a []RankedObject that contains a reference to the
 // source object that matched, as well as the similarity coefficient of the match to the query.
-func (f *FuzzyDice) Rank(query string) []rankedObject {
-	ranks := []rankedObject{}
+func (f *FuzzyDice) Rank(query string) []RankedObject {
+	ranks := []RankedObject{}
 	for _, o := range f.objects {
 		distance := o.rank(normalize(query))
 		if distance <= 0 {
 			continue
 		}
 
-		ranks = append(ranks, rankedObject{
-			source: o.source,
-			rank:   distance,
+		ranks = append(ranks, RankedObject{
+			Source: o.source,
+			Rank:   distance,
 		})
 	}
 
 	if len(ranks) == 0 {
-		return []rankedObject{}
+		return []RankedObject{}
 	}
 
 	sort.Slice(ranks, func(i, j int) bool {
-		return ranks[i].rank > ranks[j].rank
+		return ranks[i].Rank > ranks[j].Rank
 	})
 
 	return ranks
@@ -107,9 +107,9 @@ type object struct {
 	fields []string
 }
 
-type rankedObject struct {
-	source interface{}
-	rank   float32
+type RankedObject struct {
+	Source interface{}
+	Rank   float32
 }
 
 func (o object) rank(query string) float32 {

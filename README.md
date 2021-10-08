@@ -5,8 +5,20 @@
 [![Releases](https://img.shields.io/github/release/elliottcarlson/fuzzydice/all.svg?style=flat-square)](https://github.com/elliottcarlson/fuzzydice/releases)
 [![LICENSE](https://img.shields.io/github/license/elliottcarlson/fuzzydice.svg?style=flat-square)](https://github.com/elliottcarlson/fuzzydice/blob/master/LICENSE)
 
-Package fuzzydice provides a mechanism for searching across structures using the Sørensen–Dice coefficient.
+FuzzyDice implements a fuzzy matcher for structures using the Sørensen–Dice coefficient.
 
-# Usage & Examples
+Inspired by [ecnepsnai/search][1], a similar library that uses the Levenshtein distance model for matching.
+
+## Install
+
+```
+go get github.com/elliottcarlson/fuzzydice
+```
+
+##  Usage & Examples
 
 Examples can be found on the [documentation for the library](https://pkg.go.dev/github.com/elliottcarlson/fuzzydice)
+
+## License
+
+MIT
